@@ -1,0 +1,9 @@
+Verified+2: Jenkins
+Code-Review+2: Clark Boylan <cboylan@sapwetik.org>
+Code-Review+2: Jeremy Stanley <fungi@yuggoth.org>
+Workflow+1: Jeremy Stanley <fungi@yuggoth.org>
+Submitted-by: Jenkins
+Submitted-at: Tue, 21 Apr 2015 17:58:06 +0000
+Reviewed-on: https://review.openstack.org/175643
+Project: openstack-infra/puppet-gerritbot
+Branch: refs/heads/master
