@@ -7,10 +7,10 @@ class gerritbot(
   $user,
   $channel_file,
   $vhost_name = $::fqdn,
-  $ssh_rsa_key_contents = '',
-  $ssh_rsa_pubkey_contents = '',
+  $ssh_rsa_key_contents = undef,
+  $ssh_rsa_pubkey_contents = undef,
 ) {
-  include pip
+  include ::pip
 
   package { 'gerritbot':
     ensure   => present,  # Pip upgrade is not working
@@ -80,7 +80,7 @@ class gerritbot(
     require => User['gerrit2'],
   }
 
-  if $ssh_rsa_key_contents != '' {
+  if $ssh_rsa_key_contents != undef {
     file { '/home/gerrit2/.ssh/gerritbot_rsa':
       owner   => 'gerrit2',
       group   => 'gerrit2',
@@ -91,7 +91,7 @@ class gerritbot(
     }
   }
 
-  if $ssh_rsa_pubkey_contents != '' {
+  if $ssh_rsa_pubkey_contents != undef {
     file { '/home/gerrit2/.ssh/gerritbot_rsa.pub':
       owner   => 'gerrit2',
       group   => 'gerrit2',
