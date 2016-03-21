@@ -1,14 +1,14 @@
 # == Class: gerritbot
 #
 class gerritbot(
+  $channel_file,
   $nick,
   $password,
   $server,
   $user,
-  $channel_file,
-  $vhost_name = $::fqdn,
-  $ssh_rsa_key_contents = undef,
+  $ssh_rsa_key_contents    = undef,
   $ssh_rsa_pubkey_contents = undef,
+  $vhost_name              = $::fqdn,
 ) {
   include ::pip
 
