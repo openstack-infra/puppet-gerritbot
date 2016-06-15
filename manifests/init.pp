@@ -70,9 +70,9 @@ class gerritbot(
     source  => 'puppet:///modules/gerritbot/logging.config',
   }
 
-  file { '/etc/gerritbot/gerritbot.config':
+  file { '/etc/gerritbot/gerritbot.yaml':
     ensure  => present,
-    content => template('gerritbot/gerritbot.config.erb'),
+    content => template('gerritbot/gerritbot.yaml.erb'),
     group   => 'gerrit2',
     mode    => '0440',
     owner   => 'root',
