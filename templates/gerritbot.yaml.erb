@@ -1,0 +1,18 @@
+general:
+  bot_config: inline
+  channel_config: /etc/gerritbot/channel_config.yaml
+  gerrit_config: inline
+  pid: /var/run/gerritbot/gerritbot.pid
+  log_config: /etc/gerritbot/logging.config
+
+ircbot:
+  nick: <%= @nick %>
+  pass: <%= @password %>
+  server: <%= @server %>
+  port: 6667
+
+gerrit:
+ username: <%= @user %>
+ keyfile: /home/gerrit2/.ssh/gerritbot_rsa
+ server: <%= @vhost_name %>
+ port: 29418
