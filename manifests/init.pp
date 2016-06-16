@@ -14,7 +14,7 @@ class gerritbot(
 
   package { 'gerritbot':
     ensure   => present,  # Pip upgrade is not working
-    provider => pip,
+    provider => openstack_pip,
     require  => Class['pip'],
   }
 
