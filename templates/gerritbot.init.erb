@@ -1,6 +1,6 @@
 #! /bin/sh
 ### BEGIN INIT INFO
-# Provides:          gerritbot
+# Provides:          gerritbot-<%= @name %>
 # Required-Start:    $remote_fs $syslog
 # Required-Stop:     $remote_fs $syslog
 # Default-Start:     2 3 4 5
@@ -15,10 +15,10 @@
 
 # PATH should only include /usr/* if it runs after the mountnfs.sh script
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
-DESC="GerritBot"
-NAME=gerritbot
-DAEMON=/usr/local/bin/$NAME
-DAEMON_ARGS="/etc/gerritbot/gerritbot.config"
+DESC="GerritBot (<%= @name %>)"
+NAME=gerritbot-<%= @name %>
+DAEMON=/usr/local/bin/gerritbot
+DAEMON_ARGS="/etc/gerritbot/gerritbot-<%= @name %>.config"
 PIDFILE=/var/run/$NAME/$NAME.pid
 SCRIPTNAME=/etc/init.d/$NAME
 USER=gerrit2
@@ -27,7 +27,7 @@ USER=gerrit2
 [ -x "$DAEMON" ] || exit 0
 
 # Read configuration variable file if it is present
-[ -r /etc/default/$NAME ] && . /etc/default/$NAME
+[ -r /etc/default/gerritbot ] && . /etc/default/gerritbot
 
 # Load the VERBOSE setting and other rcS variables
 . /lib/init/vars.sh

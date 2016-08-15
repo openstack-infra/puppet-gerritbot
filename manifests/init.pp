@@ -1,16 +1,40 @@
 # == Class: gerritbot
 #
 class gerritbot(
-  $channel_file,
-  $nick,
-  $password,
-  $server,
-  $user,
   $ssh_rsa_key_contents    = undef,
   $ssh_rsa_pubkey_contents = undef,
-  $vhost_name              = $::fqdn,
+  $nick                    = undef,
+  $password                = undef,
+  $channel_file            = undef,
+  $server                  = undef,
+  $user                    = undef,
 ) {
   include ::pip
+
+  if $nick != undefined {
+    warning("The nick parameter to the ::gerritbot class is a noop. Please pass
+    the parameter to the gerritbot::bot defined type.")
+  }
+
+  if $password != undefined {
+    warning("The password parameter to the ::gerritbot class is a noop. Please pass
+    the parameter to the gerritbot::bot defined type.")
+  }
+
+  if $channel_file != undefined {
+    warning("The channel_file parameter to the ::gerritbot class is a noop. Please
+    pass the parameter to the gerritbot::bot defined type.")
+  }
+
+  if $server != undefined {
+    warning("The server parameter to the ::gerritbot class is a noop. Please pass
+    the parameter to the gerritbot::bot defined type.")
+  }
+
+  if $user != undefined {
+    warning("The user parameter to the ::gerritbot class is a noop. Please pass
+    the parameter to the gerritbot::bot defined type.")
+  }
 
   package { 'gerritbot':
     ensure   => present,  # Pip upgrade is not working
@@ -18,66 +42,16 @@ class gerritbot(
     require  => Class['pip'],
   }
 
-  file { '/etc/init.d/gerritbot':
-    ensure  => present,
-    group   => 'root',
-    mode    => '0555',
-    owner   => 'root',
-    require => Package['gerritbot'],
-    source  => 'puppet:///modules/gerritbot/gerritbot.init',
-  }
-
-  service { 'gerritbot':
-    ensure     => running,
-    enable     => true,
-    hasrestart => true,
-    require    => File['/etc/init.d/gerritbot'],
-    subscribe  => [
-      Package['gerritbot'],
-      File['/etc/gerritbot/gerritbot.config'],
-      File['/etc/gerritbot/channel_config.yaml'],
-    ],
-  }
-
   file { '/etc/gerritbot':
     ensure => directory,
   }
 
   file { '/var/log/gerritbot':
-    ensure => directory,
-    group  => 'gerrit2',
-    mode   => '0775',
-    owner  => 'root',
-  }
-
-  file { '/etc/gerritbot/channel_config.yaml':
-    ensure  => present,
+    ensure  => directory,
     group   => 'gerrit2',
-    mode    => '0440',
+    mode    => '0775',
     owner   => 'root',
-    replace => true,
-    require => User['gerrit2'],
-    source  => $channel_file,
-  }
-
-  file { '/etc/gerritbot/logging.config':
-    ensure  => present,
-    group   => 'gerrit2',
-    mode    => '0440',
-    owner   => 'root',
-    replace => true,
-    require => User['gerrit2'],
-    source  => 'puppet:///modules/gerritbot/logging.config',
-  }
-
-  file { '/etc/gerritbot/gerritbot.config':
-    ensure  => present,
-    content => template('gerritbot/gerritbot.config.erb'),
-    group   => 'gerrit2',
-    mode    => '0440',
-    owner   => 'root',
-    replace => true,
-    require => User['gerrit2'],
+    require => Package['gerritbot'],
   }
 
   if $ssh_rsa_key_contents != undef {
