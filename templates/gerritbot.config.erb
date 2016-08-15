@@ -4,8 +4,8 @@ pass=<%= @password %>
 server=<%= @server %>
 port=6667
 channel_config=/etc/gerritbot/channel_config.yaml
-lockfile=/var/run/gerritbot/gerritbot.pid
-log_config=/etc/gerritbot/logging.config
+lockfile=/var/run/gerritbot-<%= @name %>/gerritbot-<%= @name %>.pid
+log_config=/etc/gerritbot/logging-<%= @name %>.config
 
 [gerrit]
 user=<%= @user %>
