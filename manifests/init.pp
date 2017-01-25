@@ -13,7 +13,7 @@ class gerritbot(
   include ::pip
 
   package { 'gerritbot':
-    ensure   => present,  # Pip upgrade is not working
+    ensure   => latest,
     provider => openstack_pip,
     require  => Class['pip'],
   }
