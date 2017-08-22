@@ -1,0 +1,8 @@
+Code-Review+2: Clark Boylan <cboylan@sapwetik.org>
+Workflow+1: Clark Boylan <cboylan@sapwetik.org>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Tue, 22 Aug 2017 22:19:41 +0000
+Reviewed-on: https://review.openstack.org/495595
+Project: openstack-infra/puppet-gerritbot
+Branch: refs/heads/master
