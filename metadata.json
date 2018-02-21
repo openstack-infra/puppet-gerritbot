@@ -8,5 +8,6 @@
   "project_page": "http://docs.openstack.org/infra/system-config/",
   "issues_url": "https://storyboard.openstack.org/#!/project/717",
   "dependencies": [
+    {"name":"openstackinfra/vcsrepo","version_requirement":">= 0.0.8"}
   ]
 }
