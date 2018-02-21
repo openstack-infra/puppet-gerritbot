@@ -9,13 +9,32 @@ class gerritbot(
   $ssh_rsa_key_contents    = undef,
   $ssh_rsa_pubkey_contents = undef,
   $vhost_name              = $::fqdn,
+  # Where to fetch the git repository from
+  $git_source_repo = 'https://git.openstack.org/openstack-infra/gerritbot',
+  # Destination directory for the git repository
+  $git_root_dir = '/opt/gerritbot',
+  # The git branch
+  $git_revision_branch = 'master',
+
 ) {
   include ::pip
 
-  package { 'gerritbot':
+  # Clone the git repository
+  vcsrepo { $git_root_dir:
     ensure   => latest,
-    provider => openstack_pip,
-    require  => Class['pip'],
+    provider => git,
+    revision => $git_revision_branch,
+    source   => $git_source_repo,
+    require  => Package['git']
+  }
+
+  # Install gerritbot using pip
+  exec { 'install-gerritbot' :
+    command     => "pip install ${git_source_repo}",
+    path        => '/usr/local/bin:/usr/bin:/bin/',
+    refreshonly => true,
+    subscribe   => Vcsrepo[$git_source_repo],
+    notify      => Service['gerritbot'],
   }
 
   file { '/etc/init.d/gerritbot':
