@@ -9,13 +9,30 @@ class gerritbot(
   $ssh_rsa_key_contents    = undef,
   $ssh_rsa_pubkey_contents = undef,
   $vhost_name              = $::fqdn,
+  # Where to fetch the git repository from
+  $git_source_repo         = 'https://git.openstack.org/openstack-infra/gerritbot',
+  # Destination directory for the git repository
+  $git_root_dir            = '/opt/gerritbot',
+  # The git branch
+  $git_revision_branch     = 'master',
 ) {
   include ::pip
 
-  package { 'gerritbot':
+  # Clone the git repository
+  vcsrepo { $git_root_dir:
     ensure   => latest,
-    provider => openstack_pip,
+    provider => git,
+    revision => $git_revision_branch,
+    source   => $git_source_repo,
     require  => Class['pip'],
+  }
+
+  # Install gerritbot using pip
+  exec { 'install-gerritbot' :
+    command     => "pip install -U -r${git_root_dir}/requirements.txt && pip install --no-deps -U ${git_root_dir}",
+    path        => '/usr/local/bin:/usr/bin:/bin/',
+    refreshonly => true,
+    subscribe   => Vcsrepo[$git_root_dir],
   }
 
   file { '/etc/init.d/gerritbot':
@@ -23,7 +40,7 @@ class gerritbot(
     group   => 'root',
     mode    => '0555',
     owner   => 'root',
-    require => Package['gerritbot'],
+    require => Exec['install-gerritbot'],
     source  => 'puppet:///modules/gerritbot/gerritbot.init',
   }
 
@@ -33,9 +50,9 @@ class gerritbot(
     hasrestart => true,
     require    => File['/etc/init.d/gerritbot'],
     subscribe  => [
-      Package['gerritbot'],
       File['/etc/gerritbot/gerritbot.config'],
       File['/etc/gerritbot/channel_config.yaml'],
+      Vcsrepo[$git_root_dir],
     ],
   }
 
