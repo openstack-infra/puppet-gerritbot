@@ -44,6 +44,15 @@ class gerritbot(
     source  => 'puppet:///modules/gerritbot/gerritbot.init',
   }
 
+  if versioncmp($::operatingsystemmajrelease, '16.04') >= 0 {
+    exec { 'gerritbot-systemd-daemon-reload':
+      command     => '/bin/systemctl daemon-reload',
+      before      => Service['gerritbot'],
+      subscribe   => File['/etc/init.d/gerritbot'],
+      refreshonly => true,
+    }
+  }
+
   service { 'gerritbot':
     ensure     => running,
     enable     => true,
