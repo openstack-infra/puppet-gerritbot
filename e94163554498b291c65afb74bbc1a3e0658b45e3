@@ -1,0 +1,8 @@
+Code-Review+2: James E. Blair <corvus@inaugust.com>
+Workflow+1: James E. Blair <corvus@inaugust.com>
+Verified+2: Zuul
+Submitted-by: Zuul
+Submitted-at: Mon, 25 Mar 2019 15:26:35 +0000
+Reviewed-on: https://review.openstack.org/646936
+Project: openstack-infra/puppet-gerritbot
+Branch: refs/heads/master
