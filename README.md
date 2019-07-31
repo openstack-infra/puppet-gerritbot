@@ -1,5 +1,3 @@
-# OpenStack Gerritbot Module
+# This repo has moved to OpenDev
 
-## Overview
-
-Installs GerritBot.
+It can now be found at [https://opendev.org/opendev/puppet-gerritbot](https://opendev.org/opendev/puppet-gerritbot)
